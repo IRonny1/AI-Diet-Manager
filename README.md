@@ -10,7 +10,327 @@ Create a simple, convenient, and functional tool for nutrition monitoring with m
 
 ---
 
+## 📁 Project Structure
+
+```
+AI-Diet-Manager/
+├── mobile/                      # React Native Expo app
+│   ├── src/
+│   │   ├── components/          # Reusable UI components
+│   │   ├── screens/             # Screen components (Dashboard, Scan, History, etc.)
+│   │   ├── navigation/          # Navigation configuration
+│   │   ├── services/            # API client and storage services
+│   │   ├── store/               # State management (Zustand)
+│   │   ├── utils/               # Utility functions
+│   │   ├── types/               # TypeScript type definitions
+│   │   ├── constants/           # App constants and configuration
+│   │   └── hooks/               # Custom React hooks
+│   ├── App.tsx                  # Main app component
+│   ├── app.json                 # Expo configuration
+│   ├── tsconfig.json            # TypeScript configuration
+│   └── package.json
+│
+├── backend/                     # NestJS API
+│   ├── src/
+│   │   ├── auth/                # Authentication module
+│   │   ├── users/               # User management
+│   │   ├── meals/               # Meal tracking
+│   │   ├── scan/                # AI food recognition
+│   │   ├── stats/               # Statistics and analytics
+│   │   ├── prisma/              # Database service
+│   │   └── common/              # Shared utilities
+│   ├── prisma/
+│   │   ├── schema.prisma        # Database schema
+│   │   └── migrations/          # Database migrations
+│   └── package.json
+│
+├── docker-compose.yml           # PostgreSQL database container
+├── .gitignore
+└── stories/                     # Implementation stories
+```
+
+---
+
 ## 🛠️ Technology Stack
+
+### Mobile Frontend
+- **Framework:** React Native + Expo + TypeScript
+- **Navigation:** React Navigation v6 (Bottom Tabs)
+- **State Management:** Zustand
+- **UI Library:** React Native Paper (Material Design)
+- **HTTP Client:** Axios
+- **Date Handling:** date-fns
+- **Local Storage:** AsyncStorage
+
+### Backend
+- **Framework:** NestJS + TypeScript
+- **Database:** PostgreSQL 15
+- **ORM:** Prisma 5
+- **Authentication:** JWT + Passport.js
+- **Validation:** class-validator, class-transformer
+- **API Documentation:** Swagger/OpenAPI
+
+### Database
+- **PostgreSQL 15** running in Docker container
+- **Port:** 5436 (to avoid conflicts)
+
+### DevOps & Tools
+- **Version Control:** Git + GitHub
+- **Code Quality:** ESLint + Prettier
+- **Package Manager:** npm
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm
+- Docker Desktop
+- Android Studio (for Android development)
+
+### Setup Instructions
+
+#### 1. Clone the Repository
+```bash
+cd AI-Diet-Manager
+```
+
+#### 2. Start the Database
+```bash
+# Start PostgreSQL container
+docker compose up -d
+
+# Check database is running
+docker ps | grep ai-diet-manager-db
+```
+
+#### 3. Backend Setup
+```bash
+cd backend
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env
+
+# Run database migrations
+npx prisma migrate dev
+
+# Generate Prisma Client
+npx prisma generate
+
+# Start development server
+npm run start:dev
+```
+
+Backend will be available at:
+- **API:** http://localhost:3000
+- **Swagger Docs:** http://localhost:3000/api
+- **Health Check:** http://localhost:3000/health
+
+#### 4. Mobile App Setup
+```bash
+cd mobile
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env
+
+# Start Expo development server
+npm start
+
+# Run on Android
+npm run android
+```
+
+### Useful Commands
+
+#### Backend
+```bash
+npm run start:dev      # Start development server with hot reload
+npm run build          # Build for production
+npm run lint           # Run ESLint
+npx prisma studio      # Open Prisma Studio (database GUI)
+```
+
+#### Mobile
+```bash
+npm start              # Start Expo dev server
+npm run android        # Run on Android emulator
+npm run lint           # Run ESLint
+npm run format         # Format code with Prettier
+npm run tsc            # TypeScript type check
+```
+
+#### Docker
+```bash
+docker compose up -d          # Start database
+docker compose down           # Stop database
+docker compose logs postgres  # View database logs
+```
+
+---
+
+## 📊 Current Progress
+
+- [x] **Story 1: Project Setup** ✅ COMPLETED
+  - [x] Monorepo structure created
+  - [x] React Native (Expo) mobile app initialized
+  - [x] NestJS backend initialized
+  - [x] PostgreSQL database configured with Docker
+  - [x] Prisma ORM set up with migrations
+  - [x] Basic navigation with 5 screens
+  - [x] API client configured
+  - [x] TypeScript, ESLint, Prettier configured
+  - [x] Swagger documentation available
+
+- [ ] Story 2: Authentication
+- [ ] Story 3: AI Recognition
+- [ ] Story 4: Daily Tracking
+- [ ] Story 5: Goals Calculation
+- [ ] Story 6: History Storage
+- [ ] Story 7: Statistics
+- [ ] Story 8: Polish & Testing
+
+---
+
+## 🔌 API Endpoints
+
+### Core Endpoints
+```
+GET  /              - Welcome message
+GET  /health        - Health check
+GET  /api           - Swagger documentation
+```
+
+### Planned Endpoints (Future Stories)
+```
+Authentication:
+POST   /auth/register
+POST   /auth/login
+
+Users:
+GET    /users/profile
+PATCH  /users/profile
+
+Meals:
+POST   /meals
+GET    /meals
+GET    /meals/:id
+
+Scan:
+POST   /scan/analyze-image
+POST   /scan/save
+
+Statistics:
+GET    /stats/daily
+GET    /stats/weekly
+```
+
+---
+
+## 📝 Environment Variables
+
+### Backend (.env)
+```
+DATABASE_URL="postgresql://postgres:postgres@localhost:5436/calorie_tracker"
+JWT_SECRET=your_jwt_secret_change_in_production
+JWT_EXPIRATION=7d
+CLAUDE_API_KEY=your_claude_api_key
+PORT=3000
+```
+
+### Mobile (.env)
+```
+API_BASE_URL=http://localhost:3000
+CLAUDE_API_KEY=your_api_key_here
+```
+
+---
+
+## 🏗️ Development Notes
+
+### Current Implementation Status
+
+**Completed:**
+- ✅ Monorepo structure with mobile/ and backend/
+- ✅ React Native with Expo and TypeScript
+- ✅ NestJS with modular architecture
+- ✅ PostgreSQL with Prisma ORM
+- ✅ Basic navigation (5 screens)
+- ✅ API health check endpoint
+- ✅ Swagger documentation
+- ✅ TypeScript path aliases (@/ imports)
+- ✅ ESLint and Prettier configuration
+
+**Next Steps (Story 2):**
+- Implement user registration and login
+- JWT authentication
+- Password hashing with bcrypt
+- Auth guards and decorators
+
+### Database Schema
+
+Current models:
+- **User**: Basic user account (email, password)
+- **UserProfile**: User preferences and goals
+- **Meal**: Food entries with nutrition data
+
+### Mobile Screens
+
+Current placeholder screens:
+1. **Dashboard** - Main home screen
+2. **Scan** - Camera/photo upload for food scanning
+3. **History** - Past meal history
+4. **Statistics** - Nutrition charts and analytics
+5. **Profile** - User settings and goals
+
+---
+
+## 📚 Documentation
+
+For detailed implementation tasks, see story files in `/stories`:
+- ✅ `STORY-01-project-setup.md` - **COMPLETED**
+- `STORY-02-authentication.md`
+- `STORY-03-ai-recognition.md`
+- `STORY-04-daily-tracking.md`
+- `STORY-05-goals-calculation.md`
+- `STORY-06-history-storage.md`
+- `STORY-07-statistics.md`
+- `STORY-08-polish-testing.md`
+
+---
+
+## 🐛 Troubleshooting
+
+### PostgreSQL Port Conflicts
+If port 5432 is in use, the project uses port 5436. Check `docker-compose.yml` and update `.env` accordingly.
+
+### Android Build Issues
+Clear cache and rebuild:
+```bash
+cd mobile
+npm start -- --reset-cache
+```
+
+### Backend Not Starting
+Check if all dependencies are installed and database is running:
+```bash
+cd backend
+npm install
+docker compose up -d
+npx prisma generate
+```
+
+---
+
+**Last Updated:** February 21, 2026  
+**Current Phase:** Story 1 Complete - Ready for Story 2 (Authentication)  
+**Status:** Foundation established, development in progress
 
 ### Mobile Frontend
 - **Framework:** React Native + TypeScript
