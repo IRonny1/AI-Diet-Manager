@@ -2,7 +2,7 @@
 
 ## 📖 Project Overview
 
-A cross-platform mobile application (Android/iOS) that uses artificial intelligence to analyze food calorie content from photos. The app enables users to scan meals, get detailed nutritional information, track their daily intake, and achieve personal fitness goals.
+A cross-platform mobile application (Android) that uses artificial intelligence to analyze food calorie content from photos. The app enables users to scan meals, get detailed nutritional information, track their daily intake, and achieve personal fitness goals.
 
 ## 🎯 Main Goal
 

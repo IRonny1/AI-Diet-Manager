@@ -14,15 +14,13 @@ Initialize the mobile app (React Native) and backend (NestJS) projects with prop
 
 ## 🎯 Acceptance Criteria
 
-- [ ] React Native project initialized with TypeScript
+- [ ] React Native project (via Expo) initialized with TypeScript
 - [ ] NestJS backend project initialized with TypeScript
 - [ ] PostgreSQL database configured
 - [ ] Development environment working on both platforms (iOS/Android)
 - [ ] Basic project structure established
 - [ ] Essential dependencies installed
 - [ ] Environment variables configured
-- [ ] Git repository initialized with proper .gitignore
-- [ ] README files created for both projects
 
 ---
 
@@ -31,52 +29,8 @@ Initialize the mobile app (React Native) and backend (NestJS) projects with prop
 ### Mobile App Setup
 
 #### 1.1 Initialize React Native Project
-```bash
-npx react-native@latest init CalorieTracker --template react-native-template-typescript
-cd CalorieTracker
-```
-
 #### 1.2 Install Core Dependencies
-```bash
-# Navigation
-npm install @react-navigation/native @react-navigation/bottom-tabs @react-navigation/native-stack
-npm install react-native-screens react-native-safe-area-context
-
-# UI Library
-npm install react-native-paper react-native-vector-icons
-
-# State Management
-npm install zustand
-
-# Forms
-npm install react-hook-form
-
-# HTTP Client
-npm install axios
-
-# Storage
-npm install @react-native-async-storage/async-storage react-native-mmkv
-
-# Date handling
-npm install date-fns
-
-# Camera & Images
-npm install react-native-vision-camera react-native-image-picker
-npm install react-native-permissions
-
-# Charts
-npm install react-native-chart-kit react-native-svg
-
-# Utilities
-npm install react-native-gesture-handler react-native-reanimated
-```
-
 #### 1.3 Install Dev Dependencies
-```bash
-npm install --save-dev @types/react @types/react-native
-npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser
-npm install --save-dev @testing-library/react-native jest
-```
 
 #### 1.4 Configure TypeScript
 Create `tsconfig.json`:
@@ -169,8 +123,8 @@ npm install react-native-config
 #### 1.8 Initialize NestJS Project
 ```bash
 npm i -g @nestjs/cli
-nest new calorie-tracker-backend
-cd calorie-tracker-backend
+nest new diet-manager-backend
+cd diet-manager-backend
 ```
 
 #### 1.9 Install Core Dependencies
@@ -307,7 +261,7 @@ CLAUDE_API_KEY=your_claude_api_key
 PORT=3000
 ```
 
-#### 1.14 Setup Docker for PostgreSQL (Optional)
+#### 1.14 Setup Docker for PostgreSQL
 Create `docker-compose.yml`:
 ```yaml
 version: '3.8'
@@ -328,11 +282,6 @@ volumes:
   postgres_data:
 ```
 
-Run:
-```bash
-docker-compose up -d
-```
-
 #### 1.15 Run Initial Migration
 ```bash
 npx prisma migrate dev --name init
@@ -345,10 +294,9 @@ npx prisma generate
 
 ### Mobile App
 1. Run on Android emulator: `npm run android`
-2. Run on iOS simulator: `npm run ios`
-3. Verify hot reload works
-4. Check TypeScript compilation: `npm run tsc`
-5. Run linter: `npm run lint`
+2. Verify hot reload works
+3. Check TypeScript compilation: `npm run tsc`
+4. Run linter: `npm run lint`
 
 ### Backend
 1. Start server: `npm run start:dev`
@@ -362,21 +310,11 @@ npx prisma generate
 ## 📝 Implementation Notes
 
 ### Critical Setup Items
-- Ensure React Native environment is properly configured (Android Studio, Xcode)
-- Configure iOS Info.plist for camera permissions
 - Configure Android AndroidManifest.xml for camera permissions
 - Setup absolute imports with babel-plugin-module-resolver
 - Configure native module linking for camera and image picker
 
 ### Camera Permissions Setup
-
-**iOS (ios/CalorieTracker/Info.plist):**
-```xml
-<key>NSCameraUsageDescription</key>
-<string>We need camera access to scan your food</string>
-<key>NSPhotoLibraryUsageDescription</key>
-<string>We need photo library access to select food images</string>
-```
 
 **Android (android/app/src/main/AndroidManifest.xml):**
 ```xml
@@ -392,9 +330,6 @@ npx prisma generate
 
 **Issue:** Gradle build failures on Android
 **Solution:** Clean build: `cd android && ./gradlew clean`
-
-**Issue:** CocoaPods issues on iOS
-**Solution:** `cd ios && pod install && cd ..`
 
 **Issue:** Database connection fails
 **Solution:** Verify PostgreSQL is running and DATABASE_URL is correct
@@ -413,19 +348,9 @@ npx prisma generate
 
 ---
 
-## 📚 Resources
-
-- [React Native Setup](https://reactnative.dev/docs/environment-setup)
-- [NestJS First Steps](https://docs.nestjs.com/first-steps)
-- [Prisma Getting Started](https://www.prisma.io/docs/getting-started)
-- [React Navigation](https://reactnavigation.org/docs/getting-started)
-- [React Native Paper](https://callstack.github.io/react-native-paper/)
-
----
-
 ## ✅ Definition of Done
 
-- [ ] Mobile app runs on both iOS and Android
+- [ ] Mobile app runs on Android
 - [ ] Backend server starts without errors
 - [ ] Database is accessible and migrations run successfully
 - [ ] All dependencies installed and working

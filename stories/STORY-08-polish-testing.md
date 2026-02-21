@@ -19,7 +19,7 @@ Final polish, comprehensive testing, bug fixes, performance optimization, and pr
 - [ ] Error handling comprehensive
 - [ ] User experience smooth and intuitive
 - [ ] Performance optimized (60fps, <2s API calls)
-- [ ] App tested on both iOS and Android
+- [ ] App tested on Android
 - [ ] Navigation flows tested end-to-end
 - [ ] Edge cases handled gracefully
 - [ ] App icons and splash screen added
@@ -32,13 +32,6 @@ Final polish, comprehensive testing, bug fixes, performance optimization, and pr
 ### UI/UX Polish
 
 #### 8.1 Add App Icons and Splash Screen
-**iOS:**
-```bash
-# Generate icon sets
-# Use https://appicon.co or similar tool
-# Place in ios/CalorieTracker/Images.xcassets/AppIcon.appiconset/
-```
-
 **Android:**
 ```bash
 # Generate adaptive icons
@@ -51,234 +44,21 @@ npm install react-native-splash-screen
 ```
 
 Configure splash screen:
-- iOS: `ios/CalorieTracker/LaunchScreen.storyboard`
 - Android: `android/app/src/main/res/drawable/launch_screen.xml`
 
 #### 8.2 Add Loading Indicators
 Create consistent loading component:
 `src/components/common/Loading.tsx`:
-```typescript
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ActivityIndicator, Text } from 'react-native-paper';
-
-interface LoadingProps {
-  message?: string;
-}
-
-export const Loading: React.FC<LoadingProps> = ({ message }) => {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#4CAF50" />
-      {message && <Text style={styles.message}>{message}</Text>}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  message: {
-    marginTop: 16,
-    opacity: 0.6,
-  },
-});
-```
 
 #### 8.3 Add Empty States
 Create reusable empty state component:
 `src/components/common/EmptyState.tsx`:
-```typescript
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-interface EmptyStateProps {
-  icon: string;
-  title: string;
-  message: string;
-  actionLabel?: string;
-  onAction?: () => void;
-}
-
-export const EmptyState: React.FC<EmptyStateProps> = ({
-  icon,
-  title,
-  message,
-  actionLabel,
-  onAction,
-}) => {
-  return (
-    <View style={styles.container}>
-      <Icon name={icon} size={64} color="#BDBDBD" />
-      <Text variant="titleLarge" style={styles.title}>
-        {title}
-      </Text>
-      <Text variant="bodyMedium" style={styles.message}>
-        {message}
-      </Text>
-      {actionLabel && onAction && (
-        <Button mode="contained" onPress={onAction} style={styles.button}>
-          {actionLabel}
-        </Button>
-      )}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 40,
-  },
-  title: {
-    marginTop: 16,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  message: {
-    textAlign: 'center',
-    opacity: 0.6,
-    marginBottom: 24,
-  },
-  button: {
-    marginTop: 8,
-  },
-});
-```
 
 #### 8.4 Implement Error Boundaries
 `src/components/common/ErrorBoundary.tsx`:
-```typescript
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-
-interface Props {
-  children: ReactNode;
-}
-
-interface State {
-  hasError: boolean;
-  error: Error | null;
-}
-
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-    };
-  }
-
-  static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error,
-    };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
-  }
-
-  handleReset = () => {
-    this.setState({
-      hasError: false,
-      error: null,
-    });
-  };
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <View style={styles.container}>
-          <Text variant="headlineMedium" style={styles.title}>
-            Oops! Something went wrong
-          </Text>
-          <Text variant="bodyMedium" style={styles.message}>
-            We're sorry for the inconvenience. Please try again.
-          </Text>
-          <Button mode="contained" onPress={this.handleReset} style={styles.button}>
-            Try Again
-          </Button>
-        </View>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  message: {
-    textAlign: 'center',
-    opacity: 0.6,
-    marginBottom: 32,
-  },
-  button: {
-    paddingHorizontal: 24,
-  },
-});
-```
 
 #### 8.5 Add Network Status Indicator
 `src/components/common/NetworkStatus.tsx`:
-```typescript
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Banner } from 'react-native-paper';
-import NetInfo from '@react-native-community/netinfo';
-
-export const NetworkStatus: React.FC = () => {
-  const [isConnected, setIsConnected] = useState(true);
-  const [showBanner, setShowBanner] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setIsConnected(state.isConnected ?? true);
-      if (!state.isConnected) {
-        setShowBanner(true);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <Banner
-      visible={showBanner && !isConnected}
-      actions={[
-        {
-          label: 'Dismiss',
-          onPress: () => setShowBanner(false),
-        },
-      ]}
-      icon="wifi-off"
-    >
-      No internet connection. Some features may be unavailable.
-    </Banner>
-  );
-};
-```
 
 Install NetInfo:
 ```bash
@@ -298,25 +78,9 @@ Replace `Image` with `FastImage` for meal photos.
 
 #### 8.7 Optimize List Rendering
 Update lists to use `getItemLayout` for better performance:
-```typescript
-const getItemLayout = (data: any, index: number) => ({
-  length: ITEM_HEIGHT,
-  offset: ITEM_HEIGHT * index,
-  index,
-});
-```
 
 #### 8.8 Add Memo and Callbacks
 Optimize components with `React.memo`, `useMemo`, and `useCallback`:
-```typescript
-const MealListItem = React.memo(({ meal, onPress }: MealListItemProps) => {
-  // Component code
-});
-
-const handlePress = useCallback(() => {
-  navigation.navigate('MealDetails', { mealId: meal.id });
-}, [meal.id]);
-```
 
 ---
 
@@ -390,12 +154,6 @@ const handlePress = useCallback(() => {
 - [ ] Memory warnings
 
 #### 8.11 Platform-Specific Testing
-
-**iOS:**
-- [ ] Test on iOS 15+
-- [ ] Test on different screen sizes (iPhone SE, Pro Max)
-- [ ] Test dark mode
-- [ ] Test dynamic type sizes
 
 **Android:**
 - [ ] Test on Android 10+
