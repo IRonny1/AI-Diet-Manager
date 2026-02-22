@@ -32,14 +32,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow AI Diet Manager to access your camera to scan food."
-        }
-      ]
-    ]
+    }
   }
 }
