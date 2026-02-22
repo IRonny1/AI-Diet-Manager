@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
-import { healthCheck } from './src/services/api';
+import { healthCheck } from '@services/api';
 
 export default function App() {
   const [apiStatus, setApiStatus] = useState<string>('Checking...');
