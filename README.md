@@ -188,7 +188,20 @@ docker compose logs postgres  # View database logs
   - [x] TypeScript, ESLint, Prettier configured
   - [x] Swagger documentation available
 
-- [ ] Story 2: Authentication
+- [x] **Story 2: Authentication** ✅ COMPLETED
+  - [x] User registration with email/password
+  - [x] User login with JWT tokens
+  - [x] Token refresh mechanism (15min access, 7 days refresh)
+  - [x] Password hashing with bcrypt
+  - [x] JWT auth guards and decorators
+  - [x] Login and Register UI screens
+  - [x] Auth state management with Zustand
+  - [x] Token persistence with AsyncStorage
+  - [x] API interceptors for auth headers
+  - [x] Automatic token refresh on 401
+  - [x] Protected routes on backend
+  - [x] Navigation flow based on auth state
+
 - [ ] Story 3: AI Recognition
 - [ ] Story 4: Daily Tracking
 - [ ] Story 5: Goals Calculation
@@ -207,12 +220,16 @@ GET  /health        - Health check
 GET  /api           - Swagger documentation
 ```
 
+### Authentication Endpoints ✅
+```
+POST   /auth/register     - Register new user (email, password)
+POST   /auth/login        - Login and get tokens
+GET    /auth/me           - Get current user profile (requires auth)
+POST   /auth/refresh      - Refresh access token
+```
+
 ### Planned Endpoints (Future Stories)
 ```
-Authentication:
-POST   /auth/register
-POST   /auth/login
-
 Users:
 GET    /users/profile
 PATCH  /users/profile
@@ -328,9 +345,39 @@ npx prisma generate
 
 ---
 
-**Last Updated:** February 21, 2026  
-**Current Phase:** Story 1 Complete - Ready for Story 2 (Authentication)  
-**Status:** Foundation established, development in progress
+## 🔐 Authentication System
+
+The app uses JWT-based authentication with access and refresh tokens:
+
+### Token Configuration
+- **Access Token:** 15 minutes expiry (short-lived for security)
+- **Refresh Token:** 7 days expiry (long-lived for UX)
+- **Storage:** AsyncStorage on mobile, database on backend
+- **Refresh Flow:** Automatic refresh on 401 responses
+
+### Security Features
+- Password hashing with bcrypt (10 salt rounds)
+- Email validation and normalization (lowercase)
+- Password requirements: 8+ characters, letters + numbers
+- Protected routes with JWT guards
+- Duplicate email prevention
+
+### Mobile Auth Flow
+1. User registers/logs in
+2. Tokens stored in AsyncStorage
+3. Tokens persist across app restarts
+4. API calls automatically include Bearer token
+5. On 401 error, refresh token used to get new access token
+6. On logout, tokens cleared from storage
+
+### Testing Authentication
+See `AUTH_TESTING_RESULTS.md` for detailed test results and manual testing checklist.
+
+---
+
+**Last Updated:** February 22, 2026  
+**Current Phase:** Story 2 Complete - Ready for Story 3 (AI Recognition)  
+**Status:** Authentication system fully implemented and tested
 
 ### Mobile Frontend
 - **Framework:** React Native + TypeScript
@@ -790,32 +837,6 @@ See individual story files in `/stories` folder for detailed implementation task
 6. `STORY-06-history-storage.md` - Meal history and persistence
 7. `STORY-07-statistics.md` - Charts and analytics
 8. `STORY-08-polish-testing.md` - Final touches and testing
-
----
-
-## 📝 Notes for Claude Code Agent
-
-- Follow the stories sequentially
-- Each story should be completed before moving to the next
-- Test thoroughly after each story
-- Update this README with progress status
-- Mark stories as completed in their respective files
-- Document any deviations or architectural decisions
-
----
-
-## 🏆 Current Progress
-
-- [ ] Story 1: Project Setup
-- [ ] Story 2: Authentication
-- [ ] Story 3: AI Recognition
-- [ ] Story 4: Daily Tracking
-- [ ] Story 5: Goals Calculation
-- [ ] Story 6: History Storage
-- [ ] Story 7: Statistics
-- [ ] Story 8: Polish & Testing
-
----
 
 **Last Updated:** [Date]
 **Current Phase:** Project Initialization

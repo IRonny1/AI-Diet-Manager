@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: ai-diet-manager-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: calorie_tracker
+    ports:
+      - '5436:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
